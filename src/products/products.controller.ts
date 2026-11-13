@@ -1,43 +1,16 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { ProductsService } from './products.service.js';
+import { Controller, Get } from '@nestjs/common';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
-
-  @Post()
-  create(@Body() body: { name: string; description?: string; price: number }) {
-    return this.productsService.create(body);
-  }
-
-  @Get()
-  findAll() {
-    return this.productsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() body: { name?: string; description?: string; price?: number },
-  ) {
-    return this.productsService.update(id, body);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(id);
+  constructor(private productsService: ProductsService) {}
+  private products = [
+    { id: 'product-1', name: 'Product 1', price: 10 },
+    { id: 'product-2', name: 'Product 2', price: 20 },
+    { id: 'product-3', name: 'Product 3', price: 30 },
+  ];
+  @Get('/api/product')
+  getAllProducts() {
+    return this.productsService.getAllProducts();
   }
 }
